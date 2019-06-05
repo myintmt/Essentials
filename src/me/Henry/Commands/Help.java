@@ -1,18 +1,23 @@
 package me.Henry.Commands;
 
-import me.Henry.Main;
+import me.Henry.Utils.MessagesConfig;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+import org.bukkit.plugin.java.JavaPlugin;
 
 public class Help extends Commands{
 
-    private Main plugin;
+    private MessagesConfig config;
 
-    public Help(Main plugin) {
-        super(plugin, "help", "essentials.command.help", true);
+    public Help(JavaPlugin plugin, MessagesConfig config) {
+        super(plugin, config,"help", "essentials.command.help", true);
+        this.config = config;
     }
 
     @Override
     public void execute(CommandSender sender, String[] args) {
-        sender.sendMessage("Okay, now this is epic.");
+        Player player = (Player) sender;
+        
     }
+
 }
