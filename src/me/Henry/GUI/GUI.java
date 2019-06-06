@@ -2,12 +2,17 @@ package me.Henry.GUI;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryCloseEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.*;
 
-public abstract class GUI {
+public abstract class GUI implements Listener {
 
     private Inventory inventory;
     private Map<Integer, Action> actions;
@@ -35,8 +40,10 @@ public abstract class GUI {
     }
 
     public void open(Player player) {
+        player.closeInventory();
         getPlayerOpenedInventories().add(player.getUniqueId());
         player.openInventory(inventory);
+        afterOpen(player);
     }
 
     public Inventory getInventory() {
@@ -50,5 +57,37 @@ public abstract class GUI {
     public Set<UUID> getPlayerOpenedInventories() {
         return playerOpenedInventories;
     }
+
+    @EventHandler
+    public void onInventoryClick(InventoryClickEvent event) {
+        if (!(event.getWhoClicked() instanceof Player))
+            return;
+        Player player = (Player) event.getWhoClicked();
+        if (getPlayerOpenedInventories().contains(player.getUniqueId())) {
+            event.setCancelled(true);
+            if (getActions().get(event.getSlot()) != null)
+                getActions().get(event.getSlot()).click(player);
+        }
+    }
+
+    @EventHandler
+    public void onClose(InventoryCloseEvent event) {
+        if (getPlayerOpenedInventories().contains(event.getPlayer().getUniqueId())) {
+            getPlayerOpenedInventories().remove(event.getPlayer().getUniqueId());
+            afterClose(event);
+        }
+    }
+
+    @EventHandler
+    public void onQuit(PlayerQuitEvent event) {
+        if (getPlayerOpenedInventories().contains(event.getPlayer().getUniqueId())) {
+            getPlayerOpenedInventories().remove(event.getPlayer().getUniqueId());
+            afterQuit(event);
+        }
+    }
+
+    public abstract void afterOpen(Player player);
+    public abstract void afterClose(InventoryCloseEvent event);
+    public abstract void afterQuit(PlayerQuitEvent event);
 
 }

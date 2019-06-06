@@ -11,18 +11,17 @@ public abstract class Commands implements CommandExecutor {
 
     // Dependencies
     private JavaPlugin plugin;
-    private MessagesConfig config;
+    private MessagesConfig messagesConfig;
 
     private String commandName;
     private String permission;
     private boolean canConsoleUse;
 
 
-    public Commands(JavaPlugin plugin, MessagesConfig config, String commandName, String permission, boolean canConsoleUse) {
+    public Commands(JavaPlugin plugin, MessagesConfig messagesConfig, String commandName, String permission, boolean canConsoleUse) {
         // Dependencies
         this.plugin = plugin;
-        this.config = config;
-
+        this.messagesConfig = messagesConfig;
         this.commandName = commandName;
         this.permission = permission;
         this.canConsoleUse = canConsoleUse;
@@ -34,11 +33,11 @@ public abstract class Commands implements CommandExecutor {
         if (!command.getLabel().equalsIgnoreCase(commandName))
             return true;
         if (!sender.hasPermission(permission)) {
-            config.sendMessage(sender, config.getConfig().getString("nopermission"));
+            messagesConfig.sendMessage(sender, messagesConfig.getConfig().getString("nopermission"));
             return true;
         }
         if (!canConsoleUse && !(sender instanceof Player)) {
-            config.sendMessage(sender, config.getConfig().getString("onlyplayer"));
+            messagesConfig.sendMessage(sender, messagesConfig.getConfig().getString("onlyplayer"));
             return true;
         }
         execute(sender, args);

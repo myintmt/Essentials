@@ -14,23 +14,22 @@ public abstract class Config {
     private File file;
     private FileConfiguration config;
 
-    public Config(JavaPlugin plugin, String name) {
+    public Config(JavaPlugin plugin) {
         this.plugin = plugin;
-        this.name = name;
     }
 
-    public void init() {
-        setFile(new File(plugin.getDataFolder(), getName() + ".yml"));
-        setConfig(YamlConfiguration.loadConfiguration(getFile()));
-    }
-
-    public void createConfig() {
-        saveResource();
-        init();
+    public void createConfig(String name, boolean saveResource) {
+        saveResource(saveResource);
+        init(name);
         if (!file.exists()) {
             initConfig();
             saveConfig();
         }
+    }
+
+    public void init(String name) {
+        setFile(new File(plugin.getDataFolder(), name));
+        setConfig(YamlConfiguration.loadConfiguration(getFile()));
     }
 
     public FileConfiguration getConfig() {
@@ -40,10 +39,6 @@ public abstract class Config {
 
     public File getFile() {
         return file;
-    }
-
-    public String getName() {
-        return name;
     }
 
     public void setFile(File file) {
@@ -65,8 +60,9 @@ public abstract class Config {
 
 
     public abstract void initConfig();
-    public void saveResource() {
-        plugin.saveResource("messages.yml", false);
+    public void saveResource(boolean saveResource) {
+        if (saveResource)
+            plugin.saveResource("messages.yml", false);
     };
 
 }

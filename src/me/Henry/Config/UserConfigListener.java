@@ -10,15 +10,14 @@ public class UserConfigListener implements Listener {
     private JavaPlugin plugin;
     private UserConfig userConfig;
 
-    public UserConfigListener(JavaPlugin plugin) {
+    public UserConfigListener(JavaPlugin plugin, UserConfig userConfig) {
         this.plugin = plugin;
+        this.userConfig = userConfig;
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
-        userConfig = new UserConfig(plugin, event.getPlayer().getUniqueId());
-        userConfig.createConfig();
+        userConfig.createConfig(event.getPlayer().getUniqueId().toString() + ".yml", false);
     }
-
 }

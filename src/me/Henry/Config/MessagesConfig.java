@@ -9,8 +9,9 @@ public class MessagesConfig extends Config {
     private JavaPlugin plugin;
 
     public MessagesConfig(JavaPlugin plugin) {
-        super(plugin, "messages");
+        super(plugin);
         this.plugin = plugin;
+        createConfig("messages.yml", true);
     }
 
     @Override
