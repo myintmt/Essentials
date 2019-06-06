@@ -1,28 +1,27 @@
-package me.Henry.Commands;
+package me.Henry.commands;
 
-import me.Henry.Config.MessagesConfig;
-import me.Henry.GUI.HelpGUI;
+import me.Henry.config.MessagesConfig;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public class HelpCommand extends Commands {
+public class HelpCommands extends Commands {
 
     private JavaPlugin plugin;
     private MessagesConfig messagesConfig;
-    private HelpGUI helpGUI;
+    private me.Henry.gui.help.Help help;
 
-    public HelpCommand(JavaPlugin plugin, MessagesConfig messagesConfig, HelpGUI helpGUI) {
+    public HelpCommands(JavaPlugin plugin, MessagesConfig messagesConfig, me.Henry.gui.help.Help help) {
         super(plugin, messagesConfig, "help", "essentials.command.help", true);
         this.plugin = plugin;
-        this.helpGUI = helpGUI;
+        this.help = help;
         plugin.getCommand("help").setExecutor(this);
     }
 
     @Override
     public void execute(CommandSender sender, String[] args) {
         Player player = (Player) sender;
-        helpGUI.open(player);
+        help.open(player);
     }
 
 }

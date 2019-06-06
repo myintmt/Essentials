@@ -1,4 +1,4 @@
-package me.Henry.Config;
+package me.Henry.config;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;

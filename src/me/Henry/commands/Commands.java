@@ -1,6 +1,6 @@
-package me.Henry.Commands;
+package me.Henry.commands;
 
-import me.Henry.Config.MessagesConfig;
+import me.Henry.config.MessagesConfig;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -48,7 +48,7 @@ public abstract class Commands implements CommandExecutor {
     /*
     public final static void registerCommands(JavaPlugin pl) {
         plugin = pl;
-        new HelpCommand();
+        new HelpCommands();
     }
      */
 

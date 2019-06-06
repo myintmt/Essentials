@@ -1,6 +1,6 @@
 package me.Henry;
 
-import me.Henry.Utils.Initialize;
+import me.Henry.utils.Initialize;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class Main extends JavaPlugin {

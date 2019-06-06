@@ -1,4 +1,4 @@
-package me.Henry.GUI;
+package me.Henry.gui;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -40,9 +40,8 @@ public abstract class GUI implements Listener {
     }
 
     public void open(Player player) {
-        player.closeInventory();
-        getPlayerOpenedInventories().add(player.getUniqueId());
         player.openInventory(inventory);
+        getPlayerOpenedInventories().add(player.getUniqueId());
         afterOpen(player);
     }
 
@@ -73,16 +72,16 @@ public abstract class GUI implements Listener {
     @EventHandler
     public void onClose(InventoryCloseEvent event) {
         if (getPlayerOpenedInventories().contains(event.getPlayer().getUniqueId())) {
-            getPlayerOpenedInventories().remove(event.getPlayer().getUniqueId());
             afterClose(event);
+            getPlayerOpenedInventories().remove(event.getPlayer().getUniqueId());
         }
     }
 
     @EventHandler
     public void onQuit(PlayerQuitEvent event) {
         if (getPlayerOpenedInventories().contains(event.getPlayer().getUniqueId())) {
-            getPlayerOpenedInventories().remove(event.getPlayer().getUniqueId());
             afterQuit(event);
+            getPlayerOpenedInventories().remove(event.getPlayer().getUniqueId());
         }
     }
 

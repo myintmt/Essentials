@@ -1,4 +1,4 @@
-package me.Henry.Config;
+package me.Henry.config;
 
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -20,14 +20,14 @@ public abstract class Config {
 
     public void createConfig(String name, boolean saveResource) {
         saveResource(saveResource);
-        init(name);
+        load(name);
         if (!file.exists()) {
             initConfig();
             saveConfig();
         }
     }
 
-    public void init(String name) {
+    public void load(String name) {
         setFile(new File(plugin.getDataFolder(), name));
         setConfig(YamlConfiguration.loadConfiguration(getFile()));
     }
@@ -58,8 +58,8 @@ public abstract class Config {
         }
     }
 
-
     public abstract void initConfig();
+
     public void saveResource(boolean saveResource) {
         if (saveResource)
             plugin.saveResource("messages.yml", false);

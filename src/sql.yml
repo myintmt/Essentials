@@ -1,0 +1,5 @@
+host: 'localhost'
+database: 'server'
+username: 'root'
+password: 'root'
+table: 'player_data'

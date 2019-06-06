@@ -1,6 +1,9 @@
-package me.Henry.GUI;
+package me.Henry.gui.help.settings;
 
-import me.Henry.Config.UserConfig;
+import me.Henry.config.UserConfig;
+import me.Henry.gui.GUI;
+import me.Henry.utils.ItemBuilder;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -10,33 +13,32 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.UUID;
-
-public class HelpGUI extends GUI implements Listener{
+public class HelpSettingsGUI extends GUI implements Listener {
 
     private JavaPlugin plugin;
-    private HelpEnchantmentGUI helpEnchantmentGUI;
     private UserConfig userConfig;
 
-    public HelpGUI(JavaPlugin plugin, UserConfig userConfig, HelpEnchantmentGUI helpEnchantmentGUI) {
-        super(9, "Help");
+    private ItemStack sounds;
+    private boolean clickedSounds;
+
+    public HelpSettingsGUI(JavaPlugin plugin, UserConfig userConfig) {
+        super(9, "Settings");
         this.plugin = plugin;
         this.userConfig = userConfig;
-        this.helpEnchantmentGUI = helpEnchantmentGUI;
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
         buildItems();
-    }
 
-    private void buildItems() {
-        setItem(0, new ItemStack(Material.DIAMOND_CHESTPLATE), player -> {
-            helpEnchantmentGUI.open(player);
+        setItem(0, sounds, player -> {
+            clickedSounds = true;
         });
     }
 
-    private void print() {
-        for (UUID uuid: getPlayerOpenedInventories()) {
-            System.out.println(uuid.toString());
-        }
+    public void buildItems() {
+        sounds = new ItemBuilder(Material.NOTE_BLOCK, 1)
+                .setDisplayName(ChatColor.AQUA + "Sounds")
+                .addLoreLine(ChatColor.GRAY + "Click to enable or disable")
+                .addLoreLine(ChatColor.GRAY + "certain sounds in-game.")
+                .toItemStack();
     }
 
     @Override
@@ -48,7 +50,8 @@ public class HelpGUI extends GUI implements Listener{
     @Override
     public void afterClose(InventoryCloseEvent event) {
         Player player = (Player) event.getPlayer();
-
+        if (userConfig.getConfig().getBoolean("Settings.Sounds.Menu"))
+            player.playSound(event.getPlayer().getLocation(), Sound.BLOCK_CHEST_CLOSE, 1,1);
     }
 
     @Override
