@@ -1,4 +1,4 @@
-package me.Henry.Utils;
+package me.Henry.Config;
 
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -10,18 +10,23 @@ import java.io.IOException;
 public abstract class Config {
 
     private JavaPlugin plugin;
+    private String name;
     private File file;
     private FileConfiguration config;
 
     public Config(JavaPlugin plugin, String name) {
         this.plugin = plugin;
-        saveResource();
-        setFile(new File(plugin.getDataFolder(), name + ".yml"));
-        setConfig(YamlConfiguration.loadConfiguration(getFile()));
-        createConfig();
+        this.name = name;
     }
 
-    private void createConfig() {
+    public void init() {
+        setFile(new File(plugin.getDataFolder(), getName() + ".yml"));
+        setConfig(YamlConfiguration.loadConfiguration(getFile()));
+    }
+
+    public void createConfig() {
+        saveResource();
+        init();
         if (!file.exists()) {
             initConfig();
             saveConfig();
@@ -32,8 +37,13 @@ public abstract class Config {
         return config;
     }
 
+
     public File getFile() {
         return file;
+    }
+
+    public String getName() {
+        return name;
     }
 
     public void setFile(File file) {

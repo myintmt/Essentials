@@ -1,35 +1,21 @@
 package me.Henry;
 
-import me.Henry.Commands.Help;
-import me.Henry.Listeners.UserConfigListener;
-import me.Henry.Utils.MessagesConfig;
+import me.Henry.Utils.Initialize;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class Main extends JavaPlugin {
 
-    private MessagesConfig config;
+    private Initialize initialize;
 
     @Override
     public void onEnable() {
-        registerConfigs();
-        registerCommands();
-        registerListeners();
+        initialize = new Initialize(this);
+        initialize.init();
+
     }
 
     @Override
     public void onDisable() {
 
-    }
-
-    private void registerCommands() {
-        new Help(this, config);
-    }
-
-    private void registerListeners() {
-        this.getServer().getPluginManager().registerEvents(new UserConfigListener(this), this);
-    }
-
-    private void registerConfigs() {
-        config = new MessagesConfig(this);
     }
 }

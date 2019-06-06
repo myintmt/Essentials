@@ -1,4 +1,4 @@
-package me.Henry.Utils;
+package me.Henry.Config;
 
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -18,5 +18,6 @@ public class UserConfig extends Config {
     @Override
     public void initConfig() {
         getConfig().set("Settings.Sounds.Flight", true);
+        getConfig().set("Settings.Sounds.Menu", true);
     }
 }

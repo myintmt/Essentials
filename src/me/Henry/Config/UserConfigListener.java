@@ -1,6 +1,5 @@
-package me.Henry.Listeners;
+package me.Henry.Config;
 
-import me.Henry.Utils.UserConfig;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -13,11 +12,13 @@ public class UserConfigListener implements Listener {
 
     public UserConfigListener(JavaPlugin plugin) {
         this.plugin = plugin;
+        plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
         userConfig = new UserConfig(plugin, event.getPlayer().getUniqueId());
+        userConfig.createConfig();
     }
 
 }
